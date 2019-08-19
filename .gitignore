@@ -2,3 +2,9 @@
 Zendbit\.Blazor\.Storage/bin/
 Zendbit\.Blazor\.Storage/obj/
 
+
+Zendbit.Blazor.Storage/.vs/
+
+Zendbit.Blazor.Storage/.DS_Store
+
+.DS_Store
