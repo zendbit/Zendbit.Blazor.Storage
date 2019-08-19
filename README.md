@@ -7,6 +7,21 @@ MIT License
 Install-Package Zendbit.Blazor.Storage -Version 1.0.2
 ```
 
+add to Startup.cs
+
+```
+using Zendbit.Blazor.Storage
+
+// then register to service
+services.AddStorage(
+    (localStorage) =>
+    {
+        // your secret key for local storage and session encryption
+        localStorage.EncryptionKey = "s3cr3t";
+    }
+);
+```
+
 add to _ViewImports
 
 ```
