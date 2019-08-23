@@ -5,6 +5,8 @@ using Microsoft.JSInterop;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 using Zendbit.Tools.Encryption;
+using System.IO;
+using System.Text;
 
 namespace Zendbit.Blazor.Storage
 {
@@ -62,15 +64,6 @@ namespace Zendbit.Blazor.Storage
                     string.Format("{0}.removeItem", _localStorageType),
                     _storageIdentity
                 );
-        }
-
-        /// <summary>
-        /// This method for clear local storage from the web storage
-        /// </summary>
-        /// <returns></returns>
-        public void ClearStorage()
-        {
-            ClearStorageAsync().GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -191,11 +184,30 @@ namespace Zendbit.Blazor.Storage
         /// <param name="key">key of data</param>
         /// <param name="value">value of data</param>
         /// <returns></returns>
-        public (bool IsSuccess, string ErrMsg) Add(
-            string key, object value
+        public async Task<(bool IsSuccess, string ErrMsg)> AddAsync<T>(
+            string key, T value
         )
         {
-            return AddAsync(key, value).GetAwaiter().GetResult();
+            //var supported = IsTypeSupported(value.GetType());
+            //if (!supported.IsSupported) return supported;
+
+            var storage = await DeserializeStorageAsync();
+            var insertedValue =
+                JsonSerializer.Serialize(
+                    new KeyValuePair<string, string>(
+                        JsonSerializer.Serialize(value),
+                        value.GetType().ToString()
+                    )
+                );
+            if (storage.ContainsKey(key))
+                storage[key] = insertedValue;
+
+            else
+                storage.Add(key, insertedValue);
+
+            await SerializeStorageAsync(storage);
+
+            return (true, string.Empty);
         }
 
         /// <summary>
@@ -208,16 +220,6 @@ namespace Zendbit.Blazor.Storage
             return (
                 await GetJsonAsync(key)
             ).IsExist;
-        }
-
-        /// <summary>
-        /// Check if storage contain key
-        /// </summary>
-        /// <param name="key">key data tobe checked</param>
-        /// <returns></returns>
-        public bool Contain(string key)
-        {
-            return ContainAsync(key).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -273,9 +275,42 @@ namespace Zendbit.Blazor.Storage
         /// <returns>return value is tuple
         /// (IsSuccess, Value) IsSuccess will return true and the dynamic
         /// value will return deleted value.</returns>
-        public (bool IsSuccess, dynamic Value) Remove(string key)
+        public async Task JustRemoveAsync(string key)
         {
-            return RemoveAsync(key).GetAwaiter().GetResult();
+            var (isSuccess, _) = await GetValueAsync(key);
+            var storage = await DeserializeStorageAsync();
+            if (
+                storage.ContainsKey(key)
+                && isSuccess
+            )
+            {
+                storage.Remove(key);
+                await SerializeStorageAsync(storage);
+            }
+        }
+
+        /// <summary>
+        /// Remove key value from data with given key
+        /// </summary>
+        /// <param name="key">key to be remove</param>
+        /// <returns>return value is tuple
+        /// (IsSuccess, Value) IsSuccess will return true and the dynamic
+        /// value will return deleted value.</returns>
+        public async Task<(bool IsSuccess, T Value)> RemoveAsync<T>(string key)
+        {
+            var (isSuccess, value) = await GetValueAsync<T>(key);
+            var storage = await DeserializeStorageAsync();
+            if (
+                storage.ContainsKey(key)
+                && isSuccess
+            )
+            {
+                storage.Remove(key);
+                await SerializeStorageAsync(storage);
+                return (true, value);
+            }
+
+            return (false, default(T));
         }
 
         /// <summary>
@@ -336,11 +371,25 @@ namespace Zendbit.Blazor.Storage
         /// <returns>return value is tuple
         /// (IsSuccess, Value) IsSuccess will true if get value success
         /// and will return the data value.</returns>
-        public (bool IsSuccess, dynamic Value) GetValue(
+        public async Task<(bool IsSuccess, T Value)> GetValueAsync<T>(
             string key
         )
         {
-            return GetValueAsync(key).GetAwaiter().GetResult();
+            var (isExist, jsonElement) = await GetJsonAsync(key);
+            if (isExist)
+            {
+                var valueMap =
+                    JsonSerializer.Deserialize<KeyValuePair<string, string>>(
+                        jsonElement.GetString()
+                    );
+
+                return (
+                    true,
+                    JsonSerializer.Deserialize<T>(valueMap.Key)
+                );
+            }
+
+            return (false, default(T));
         }
     }
 
@@ -350,16 +399,14 @@ namespace Zendbit.Blazor.Storage
     public interface IBaseStorage
     {
         Task<(bool IsSuccess, string ErrMsg)> AddAsync(string key, object value);
+        Task<(bool IsSuccess, string ErrMsg)> AddAsync<T>(string key, T value);
         Task<(bool IsSuccess, dynamic Value)> GetValueAsync(string key);
+        Task<(bool IsSuccess, T Value)> GetValueAsync<T>(string key);
         Task<(bool IsSuccess, dynamic Value)> RemoveAsync(string key);
+        Task<(bool IsSuccess, T Value)> RemoveAsync<T>(string key);
+        Task JustRemoveAsync(string key);
         Task ClearStorageAsync();
         Task<bool> ContainAsync(string key);
-
-        (bool IsSuccess, string ErrMsg) Add(string key, object value);
-        (bool IsSuccess, dynamic Value) GetValue(string key);
-        (bool IsSuccess, dynamic Value) Remove(string key);
-        void ClearStorage();
-        bool Contain(string key);
     }
 
     public interface ILocalStorage : IBaseStorage

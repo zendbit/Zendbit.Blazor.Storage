@@ -8,3 +8,8 @@ Zendbit.Blazor.Storage/.vs/
 Zendbit.Blazor.Storage/.DS_Store
 
 .DS_Store
+
+.vscode/
+
+TestCase/obj/
+TestCase/bin/
