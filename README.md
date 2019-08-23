@@ -28,11 +28,10 @@ add to _ViewImports
 @using Zendbit.Blazor.Storage
 ```
 
-Example using async
+Usage example
 
 ```
 @page "/"
-@inject IJSRuntime JsRuntime
 @inject IComponentContext ComponentContext
 @inject ILocalStorage Storage
 @inject ILocalSession Session
@@ -47,63 +46,43 @@ Welcome to your new app.
     {
         if (!ComponentContext.IsConnected) return;
 
-        //System.Console.WriteLine(Storage);
-        await Storage.AddAsync("Test", "OK");
-        await Storage.AddAsync("Helo", 1);
-        System.Console.WriteLine(
-            await Storage.GetValueAsync("Test")
-        );
-        await Storage.RemoveAsync("Test");
-        System.Console.WriteLine(
-            await Storage.GetValueAsync("Test")
-        );
-        await Session.AddAsync("Test", DateTime.UtcNow);
-        System.Console.WriteLine(
-            await Session.GetValueAsync("Test")
-        );
-        System.Console.WriteLine(
-            await Session.ContainAsync("Test")
-        );
+        // supported value type is
+        // string, int, uint, double, float, decimal. DateTime, bool
+        // add value async
+        // isSuccess will true if success
+        // errMsg is empty string if success
+        // --> for session use Session.AddAsync
+        // --> for synchronous call use Storage.Add(key, val)
+        var (isSuccess1, errMsg1) = await Storage.AddAsync("A", "a");
+
+        // or you can just do
+        // this will update value A to 1
+        await Storage.AddAsync("A", 1);
+
+        // get value async
+        // isSuccess will true if operation success
+        // value is dynamic value for string, int, uint, double, float, decimal. DateTime, bool
+        // --> for session use Session.GetValueAsync
+        // --> for synchronous call use Storage.GetValue(key)
+        var (isSuccess2, value2) = await Storage.GetValueAsync("A");
+
+        // will remove the value with key as parameter
+        // isSuccess will return true if success removed
+        // value is return value of removed item
+        // --> for session use Session.RemoveAsync
+        // -->for synchronous call use Storage.Remove(key)
+        var (isSuccess3, value3) = await Storage.RemoveAsync("A");
+
+        // check if storage contain key
+        // --> for session use Session.ContainAsync
+        // --> for synchronous call use Storage.Contain(key)
+        var isContainKey = await Storage.ContainAsync("A");
+
+        // clear all storage data
+        // --> for session use Session.ClearStorageAsync
+        // --> for synchronous call use Storage.ClearStorage()
+        await Storage.ClearStorageAsync();
     }
 }
-```
 
-example using sync
-
-```
-@page "/"
-@inject IJSRuntime JsRuntime
-@inject IComponentContext ComponentContext
-@inject ILocalStorage Storage
-@inject ILocalSession Session
-
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-@code
-{
-    protected override async Task OnAfterRenderAsync()
-    {
-        if (!ComponentContext.IsConnected) return;
-
-        //System.Console.WriteLine(Storage);
-        Storage.Add("Test", "OK");
-        Storage.Add("Helo", 1);
-        System.Console.WriteLine(
-            Storage.GetValue("Test")
-        );
-        Storage.RemoveAsync("Test");
-        System.Console.WriteLine(
-            Storage.GetValue("Test")
-        );
-        await Session.Add("Test", DateTime.UtcNow);
-        System.Console.WriteLine(
-            Session.GetValue("Test")
-        );
-        System.Console.WriteLine(
-            Session.Contain("Test")
-        );
-    }
-}
 ```
