@@ -4,7 +4,7 @@ Blazor extension for local web storage and session implementation using JSIntero
 MIT License
 
 ```
-Install-Package Zendbit.Blazor.Storage -Version 1.0.2
+Install-Package Zendbit.Blazor.Storage
 ```
 
 add to Startup.cs
