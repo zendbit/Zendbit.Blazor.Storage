@@ -13,3 +13,5 @@ Zendbit.Blazor.Storage/.DS_Store
 
 TestCase/obj/
 TestCase/bin/
+
+.vs/

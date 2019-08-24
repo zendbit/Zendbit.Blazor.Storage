@@ -5,14 +5,14 @@
         <RazorLangVersion>3.0</RazorLangVersion>
         <PackOnBuild>true</PackOnBuild>
         <Authors>Amru Rosyada</Authors>
-        <Description>Implement web storage and session using JSInterop for Blazor and Razor with enpcryption support</Description>
+        <Description>Implement web storage and session using JSInterop for Server Side Blazor and Razor with enpcryption support</Description>
         <PackageId>Zendbit.Blazor.Storage</PackageId>
-        <PackageVersion>1.0.2</PackageVersion>
+        <PackageVersion>1.0.3</PackageVersion>
         <Copyright>Zendbit Solution</Copyright>
         <Owners>Zendbit Solution</Owners>
         <PackageProjectUrl>https://github.com/zenvarlab/Zendbit.Blazor.Storage</PackageProjectUrl>
-        <PackageReleaseNotes>Implement web storage and session using JSInterop for Blazor and Razor with enpcryption support</PackageReleaseNotes>
-        <Summary>Local web storage and session using JSInterop for Blazor and Razor with encryption support</Summary>
+        <PackageReleaseNotes>Implement web storage and session using JSInterop for Server Side Blazor and Razor with enpcryption support</PackageReleaseNotes>
+        <Summary>Implement web storage and session using JSInterop for Server Side Blazor and Razor with enpcryption support</Summary>
         <PackageTags>Blazor, Razor, web storage, local storage, local session, encryption</PackageTags>
         <Title>Zendbit.Blazor.Storage</Title>
     </PropertyGroup>
