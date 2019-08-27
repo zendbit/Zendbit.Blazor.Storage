@@ -1,5 +1,5 @@
 # Zendbit.Blazor.Storage (for netstandard 2.0)
-Blazor server side extension for local web storage and session implementation using JSInterop
+Blazor Client extension for local web storage and session implementation using JSInterop
 
 MIT License
 
