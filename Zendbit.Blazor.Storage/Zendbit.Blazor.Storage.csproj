@@ -7,7 +7,7 @@
         <Authors>Amru Rosyada</Authors>
         <Description>Implement web storage and session using JSInterop for Server Side Blazor and Razor with enpcryption support</Description>
         <PackageId>Zendbit.Blazor.Storage</PackageId>
-        <PackageVersion>1.0.3</PackageVersion>
+        <PackageVersion>1.0.4</PackageVersion>
         <Copyright>Zendbit Solution</Copyright>
         <Owners>Zendbit Solution</Owners>
         <PackageProjectUrl>https://github.com/zenvarlab/Zendbit.Blazor.Storage</PackageProjectUrl>
@@ -22,7 +22,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.0.0-preview8.19405.7" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-preview8.19405.7" />
-        <PackageReference Include="Zendbit.Tools" Version="1.0.6" />
+        <PackageReference Include="Zendbit.Tools" Version="1.0.8" />
         <PackageReference Include="NuGet.Build.Packaging" Version="0.2.5-dev.8">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>

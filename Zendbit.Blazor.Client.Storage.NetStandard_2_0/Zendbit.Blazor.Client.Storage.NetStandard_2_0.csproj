@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <PackOnBuild>true</PackOnBuild>
+    <Authors>Amru Rosyada</Authors>
+    <Description>Implement web storage and session using JSInterop for blazor browser (Client) with enpcryption support (netstandard_2_0)</Description>
+    <PackageId>Zendbit.Blazor.Client.Storage.NetStandard_2_0</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Copyright>Zendbit Solution</Copyright>
+    <Owners>Zendbit Solution</Owners>
+    <PackageProjectUrl>https://github.com/zenvarlab/Zendbit.Blazor.Storage</PackageProjectUrl>
+    <PackageReleaseNotes>Implement web storage and session using JSInterop for blazor browser (Client) with encryption support (netstandard_2_0)</PackageReleaseNotes>
+    <Summary>Implement web storage and session using JSInterop for blazor browser (Client) with encryption support (netstandard_2_0)</Summary>
+    <PackageTags>Blazor, Razor, web storage, local storage, local session, encryption</PackageTags>
+    <Title>Zendbit.Blazor.Client.Storage</Title>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview8.19405.7"/>
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview8.19405.7" PrivateAssets="all"/>
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.5-dev.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Zendbit.Tools.NetStandard_2_0" Version="1.0.8"/>
+  </ItemGroup>
+</Project>
